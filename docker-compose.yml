@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: starshipdb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=ASuperComplexPassword!
+    ports:
+      - "1433:1433"
+    networks:
+      - starship-network
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+  api:
+    build: ./StarshipAPI
+    container_name: starshipapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "5000:80"  # Expose API on port 5000
+    depends_on:
+      - db
+    networks:
+      - starship-network
+  frontend:
+    build: ./starship-frontend
+    container_name: starshipfrontend
+    ports:
+      - "3000:80"  # Expose the React app on port 3000
+    depends_on:
+      - api  # Ensure the API is running before starting the frontend
+    networks:
+      - starship-network
+
+networks:
+  starship-network:
+    driver: bridge
