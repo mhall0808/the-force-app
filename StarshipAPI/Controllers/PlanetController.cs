@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("planets")]
+[Route("api/planets")]
 public class PlanetController : ControllerBase
 {
     private readonly PlanetService _planetService;

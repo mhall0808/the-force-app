@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("vehicles")]
+[Route("api/vehicles")]
 public class VehicleController : ControllerBase
 {
     private readonly VehicleService _vehicleService;

@@ -12,12 +12,34 @@ builder.Services.AddHttpClient();
 // Register GenericSeeder
 builder.Services.AddScoped<GenericSeeder>();
 
+// Add CORS support
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
+// Register all six services
+builder.Services.AddScoped<FilmService>();
+builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<PlanetService>();
+builder.Services.AddScoped<SpeciesService>();
+builder.Services.AddScoped<StarshipService>();
+builder.Services.AddScoped<VehicleService>();
+
 // Add Swagger for API documentation (optional)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers(); 
+// Add controllers
+builder.Services.AddControllers();
 
+// Build the application
 var app = builder.Build();
 
 // Automatically apply any pending migrations and seed the database
@@ -25,19 +47,12 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<TheForceDbContext>();
 
-    /* 
-        There is an issue with seeding.  It was not waiting until the migrations were complete
-        to perform the seed.  Creating a task and awaiting solves the problem.  
-        NOTE - running this on my personal machine takes about 30 seconds to boot up.  
-    */
     try
     {
-        // Apply migrations
         Console.WriteLine("Applying database migrations...");
         await dbContext.Database.MigrateAsync();
         Console.WriteLine("Database migrations applied successfully.");
 
-        // Seed the database once migrations are complete
         var seeder = scope.ServiceProvider.GetRequiredService<GenericSeeder>();
         Console.WriteLine("Seeding the database...");
         await seeder.SeedAllEntitiesAsync();
@@ -49,16 +64,19 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
+// Enable CORS (after building the app)
+app.UseCors("AllowAllOrigins");
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
 app.MapControllers();
 
-// Use routing and map the controllers
 app.UseRouting();
-app.UseEndpoints(endpoints => {
+app.UseEndpoints(endpoints =>
+{
     endpoints.MapControllers();
 });
 

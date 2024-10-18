@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/films")]
 public class FilmController : ControllerBase
 {
     private readonly FilmService _filmService;

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("starships")]
+[Route("api/starships")]
 public class StarshipController : ControllerBase
 {
     private readonly StarshipService _starshipService;

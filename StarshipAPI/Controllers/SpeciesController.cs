@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("species")]
+[Route("api/species")]
 public class SpeciesController : ControllerBase
 {
     private readonly SpeciesService _speciesService;
