@@ -31,6 +31,7 @@ builder.Services.AddScoped<PlanetService>();
 builder.Services.AddScoped<SpeciesService>();
 builder.Services.AddScoped<StarshipService>();
 builder.Services.AddScoped<VehicleService>();
+builder.Services.AddScoped<OllamaService>();
 
 // Add Swagger for API documentation (optional)
 builder.Services.AddEndpointsApiExplorer();
@@ -46,9 +47,15 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<TheForceDbContext>();
+    var ollamaService = scope.ServiceProvider.GetRequiredService<OllamaService>();
 
     try
     {
+        // Pull the model automatically on startup
+        // Console.WriteLine("Pulling the Qwen2.5 model...");
+        // await ollamaService.PullModelAsync("qwen2.5:3b");
+        // Console.WriteLine("Model pulled successfully.");
+
         Console.WriteLine("Applying database migrations...");
         await dbContext.Database.MigrateAsync();
         Console.WriteLine("Database migrations applied successfully.");

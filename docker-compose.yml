@@ -13,17 +13,42 @@ services:
       - starship-network
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
+
   api:
     build: ./StarshipAPI
     container_name: starshipapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     ports:
-      - "5000:8080"  # Expose API on port 5000
+      - "5000:8080"
     depends_on:
       - db
     networks:
       - starship-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: StarLlama
+    entrypoint: /bin/sh /entrypoint.sh
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./entrypoint.sh:/entrypoint.sh
+    ports:
+      - "11434:11434"
+    networks:
+      - starship-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'       # Limit the container to use at most 2 CPUs
+          memory: '4g'      # Limit the container to use at most 4GB of RAM
+        reservations:
+          cpus: '1.5'       # Reserve at least 1.5 CPUs for the container
+          memory: '2g'      # Reserve at least 2GB of RAM for the container
+    environment:
+    - OLLAMA_NUM_THREADS=4  # Set the number of threads to 4
+
+
   # frontend:
   #   build: ./starship-frontend
   #   container_name: starshipfrontend
@@ -32,8 +57,12 @@ services:
   #   depends_on:
   #     - api  # Ensure the API is running before starting the frontend
   #   networks:
-  #     - starship-network
+      # - starship-network
 
 networks:
   starship-network:
     driver: bridge
+
+volumes:
+  ollama_data:
+    driver: local

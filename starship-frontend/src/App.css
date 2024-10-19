@@ -1,38 +1,99 @@
+/* src/App.css */
+
+/* General Styles */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  color: #fff;
+}
+
+/* Backgrounds */
+.flat-background {
+  background-color: #000; /* Flat black background before the crawl */
+}
+
+.starry-background {
+  background-image: url('/public/assets/starry-sky.jpg'); /* Corrected path */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Main Content */
+.main-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  padding: 20px;
+  height: calc(100vh - 56px); /* Adjust based on navbar height */
+  text-align: center; /* Ensure center alignment */
 }
 
-.App-link {
-  color: #61dafb;
+/* Welcome Content */
+.welcome-content h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px #000;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.welcome-content p {
+  font-size: 1.5em;
+}
+
+/* Mobile View Styles */
+.mobile-view .icon {
+  font-size: 4em;
+  color: #fff;
+}
+
+.mobile-view .go-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  padding: 0 20px;
+}
+
+.mobile-view .go-button-container .btn {
+  font-size: 1.5em;
+  padding: 15px;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Media Queries for Mobile Adjustments */
+@media (max-width: 576px) {
+  /* Adjust navbar link font size */
+  .navbar-nav .nav-link {
+    font-size: 0.9em;
   }
-  to {
-    transform: rotate(360deg);
+
+  /* Resize the welcome heading */
+  .welcome-content h1 {
+    font-size: 2em;
   }
+
+  /* Resize welcome paragraph */
+  .welcome-content p {
+    font-size: 1.2em;
+  }
+
+  /* Padding and margins to fit screen size */
+  .main-content {
+    padding: 10px;
+  }
+
+  /* Adjust icon text */
+  .mobile-view .col-4 p {
+    font-size: 0.9em;
+  }
+}
+
+/* Ensuring images and videos scale down for mobile */
+img {
+  max-width: 100%;
+  height: auto;
 }

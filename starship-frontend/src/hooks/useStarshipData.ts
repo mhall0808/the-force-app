@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
-import { fetchAllStarships } from '../api/starshipApi';  // Correct import path
+import { fetchAllEntities } from '../api/starshipApi';  // Adjusted import for the generic API file
 
-interface Starship {
+interface Entity {
   id: number;
   name: string;
-  model: string;
   [key: string]: any;
 }
 
-export const useStarshipData = () => {
-  const [starships, setStarships] = useState<Starship[]>([]);
+export const useEntityData = <T extends Entity>(entityType: string) => {
+  const [entities, setEntities] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const getStarships = async () => {
+    const getEntities = async () => {
       try {
-        const data = await fetchAllStarships();  // Fetch starships, properly typed
-        setStarships(data);  // Now this will be correctly typed
+        const data = await fetchAllEntities(entityType);  // Fetch entities based on the type
+        setEntities(data as T[]);  // Type assertion to ensure TypeScript knows the type
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
@@ -27,8 +26,8 @@ export const useStarshipData = () => {
       }
     };
 
-    getStarships();
-  }, []);
+    getEntities();
+  }, [entityType]);
 
-  return { starships, loading, error };
+  return { entities, loading, error };
 };
