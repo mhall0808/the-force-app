@@ -1,6 +1,6 @@
 // src/components/StarWarsCrawl.tsx
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './StarWarsCrawl.css';
 
 interface StarWarsCrawlProps {
@@ -9,45 +9,57 @@ interface StarWarsCrawlProps {
   duration?: number; // Duration in seconds
 }
 
-const StarWarsCrawl: React.FC<StarWarsCrawlProps> = ({ text, onSkip, duration = 40 }) => {
+const StarWarsCrawl: React.FC<StarWarsCrawlProps> = ({ text, onSkip, duration = 50 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isAnimationStarted, setIsAnimationStarted] = useState(false);
+  const crawlContentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Start the animation when the text is loaded
-    if (text.length > 0 && !isAnimationStarted) {
-      setIsAnimationStarted(true);
-
-      // Start the audio
-      if (audioRef.current) {
-        audioRef.current.play().catch((error) => {
-          console.error('Error playing audio:', error);
-        });
-      }
+    // Start the audio
+    if (audioRef.current) {
+      audioRef.current.play().catch((error) => {
+        console.error('Error playing audio:', error);
+      });
     }
-  }, [text, isAnimationStarted]);
 
-  useEffect(() => {
+    // Add animation end listener
+    const handleAnimationEnd = () => {
+      onSkip(); // Automatically end the crawl
+    };
+
+    const crawlContent = crawlContentRef.current;
+    if (crawlContent) {
+      crawlContent.addEventListener('animationend', handleAnimationEnd);
+    }
+
     return () => {
+      // Clean up event listener
+      if (crawlContent) {
+        crawlContent.removeEventListener('animationend', handleAnimationEnd);
+      }
       // Stop the audio when the component unmounts
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
     };
-  }, []);
+  }, [onSkip]);
 
   return (
     <div className="star-wars-crawl">
       <div
-        className={`crawl-content ${isAnimationStarted ? 'animate' : ''}`}
+        className="crawl-content"
         style={{ '--animation-duration': `${duration}s` } as React.CSSProperties}
+        ref={crawlContentRef}
       >
         {text.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
+          <p key={index} className={index === 0 ? 'title' : ''}>
+            {paragraph}
+          </p>
         ))}
       </div>
-      <button className="skip-button" onClick={onSkip}>Skip</button>
+      <button className="skip-button btn btn-secondary" onClick={onSkip} aria-label="Skip Crawl">
+        Skip
+      </button>
       {/* Audio Element */}
       <audio ref={audioRef} src="/assets/star-wars-theme.mp3" />
     </div>

@@ -4,17 +4,35 @@
 .App {
   min-height: 100vh;
   color: #fff;
+  background-color: #000; /* Simple black background */
+  position: relative;
 }
 
-/* Backgrounds */
-.flat-background {
-  background-color: #000; /* Flat black background before the crawl */
+/* Navbar Fixes */
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
 }
 
-.starry-background {
-  background-image: url('/public/assets/starry-sky.jpg'); /* Corrected path */
-  background-size: cover;
-  background-position: center;
+.navbar .navbar-brand {
+  margin-left: 20px;
+}
+
+.navbar .nav-link {
+  color: #fff;
+}
+
+.navbar .nav-link:hover {
+  color: #ccc;
+}
+
+/* Adjust main content to account for fixed navbar */
+.desktop-view .main-content {
+  padding-top: 70px; /* Adjust based on navbar height */
 }
 
 /* Main Content */
@@ -25,7 +43,8 @@
   align-items: center;
   padding: 20px;
   height: calc(100vh - 56px); /* Adjust based on navbar height */
-  text-align: center; /* Ensure center alignment */
+  text-align: center;
+  background-color: #000; /* Match the background */
 }
 
 /* Welcome Content */
@@ -43,6 +62,11 @@
 .mobile-view .icon {
   font-size: 4em;
   color: #fff;
+  transition: transform 0.5s ease; /* Smooth rotation */
+}
+
+.mobile-view .icon.rotated {
+  transform: rotate(360deg);
 }
 
 .mobile-view .go-button-container {
@@ -58,10 +82,33 @@
   padding: 15px;
 }
 
-/* Loading Indicator */
-.loading-indicator {
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-size: 2em;
   text-align: center;
-  margin-top: 50px;
+}
+
+/* Error Alert Positioning */
+.alert {
+  width: 90%;
+  max-width: 400px;
+}
+
+/* Optional: Rotate icons on click for mobile */
+.rotated {
+  transform: rotate(360deg);
+  transition: transform 0.5s;
 }
 
 /* Media Queries for Mobile Adjustments */

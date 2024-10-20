@@ -11,31 +11,41 @@
   color: yellow;
   overflow: hidden;
   z-index: 1000;
-  perspective: 600px;
 }
 
 .crawl-content {
   position: absolute;
-  bottom: -100px;
-  width: 100%;
-  height: auto;
-  transform-origin: 50% 100%;
-  transform: rotateX(25deg);
-  font-size: 200%;
+  bottom: -100%; /* Start from below the screen */
+  width: 60%;
+  max-width: 800px;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-  line-height: 150%;
+  font-size: 2em;
+  animation: crawl var(--animation-duration, 50s) linear forwards;
 }
 
-.crawl-content.animate {
-  animation: crawl var(--animation-duration, 40s) linear forwards;
+/* Fixed paragraph height to prevent jumps */
+.crawl-content p {
+  min-height: 2.5em; /* Adjust as needed */
+  margin: 0;
+  padding: 0.5em 0;
 }
 
+/* Style for the Film Title */
+.crawl-content p.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+/* Keyframes for Crawling Upwards */
 @keyframes crawl {
-  0% {
-    transform: rotateX(25deg) translateZ(0);
+  from {
+    bottom: -100%; /* Match the starting position */
   }
-  100% {
-    transform: rotateX(25deg) translateZ(-2500px);
+  to {
+    bottom: 100%;
   }
 }
 
@@ -44,7 +54,7 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(0, 128, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -55,12 +65,12 @@
 }
 
 .skip-button:hover {
-  background: rgba(0, 128, 0, 1);
+  background: rgba(0, 0, 0, 0.7);
 }
 
-/* Adjustments for Mobile */
+/* Responsive Font Sizes */
 @media (max-width: 576px) {
   .crawl-content {
-    font-size: 150%;
+    font-size: 1.5em;
   }
 }
