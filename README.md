@@ -93,6 +93,7 @@ Manage Starships:
 Ollama will download QWEN2.5:0.5b - this is about 400 MB.  Furthermore, the API will need to migrate the database and seed the data.  You will need to wait a moment before jumping into it.  
 1) Verify that the API has completed the seed.
 2) Verify that Ollama finished downloading.
+
 Or - just wait about a minute and everything should be ready without you having to look at it :)
 
 ## Additional Notes
