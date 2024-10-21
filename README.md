@@ -50,8 +50,8 @@ At least 8GB of RAM: Recommended for running all services smoothly.
 #### bash
 
 ```
-git clone https://github.com/yourusername/star-wars-crawl-adventure.git
-cd star-wars-crawl-adventure
+git clone https://github.com/mhall0808/the-force-app.git
+cd the-force-app
 ```
 
 ### 2. Build and Run with Docker Compose

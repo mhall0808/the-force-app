@@ -48,16 +48,15 @@ services:
     environment:
     - OLLAMA_NUM_THREADS=4  # Set the number of threads to 4
 
-
-  # frontend:
-  #   build: ./starship-frontend
-  #   container_name: starshipfrontend
-  #   ports:
-  #     - "3000:80"  # Expose the React app on port 3000
-  #   depends_on:
-  #     - api  # Ensure the API is running before starting the frontend
-  #   networks:
-      # - starship-network
+  frontend:
+    build: ./starship-frontend
+    container_name: starshipfrontend
+    ports:
+      - "3000:80"  # Expose the React app on port 3000
+    depends_on:
+      - api  # Ensure the API is running before starting the frontend
+    networks:
+      - starship-network
 
 networks:
   starship-network:
