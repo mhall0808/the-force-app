@@ -9,6 +9,7 @@ Architecture
 Prerequisites
 Installation and Setup
 Usage
+Additional Notes
 Acknowledgments
 
 ## Features
@@ -24,7 +25,7 @@ Modern Design: Incorporates the latest Bootstrap components for a sleek and mode
 Backend: .NET 8.0 API using ASP.NET Core MVC
 Frontend: React.js with Bootstrap for styling
 Database: Microsoft SQL Server with Entity Framework Core
-AI Service: Ollama
+AI Service: Ollama using Qwen 2.5 - 0.5B.  You may swap out for larger models, but after various tests, this was the only one that provided fast enough speed without running NVIDIA CUDA.  Yep - this is running on all CPU.
 Containerization: Docker and Docker Compose
 
 ## Architecture
@@ -71,7 +72,7 @@ Start all services defined in the docker-compose.yml file.
 ### 3. Verify the Setup
 
 Frontend: Open your browser and navigate to http://localhost:3000 to access the React application.
-API: The backend API is accessible at http://localhost:5000.
+API: The backend API is accessible at http://localhost:5000.  You can view the swagger by navigating to http://localhost:5000/swagger
 Ollama: The AI service runs on http://localhost:11434.
 
 ## Usage
@@ -88,6 +89,17 @@ Generate the Star Wars Crawl:
 
 Manage Starships:
     Use the CRUD functionality to create, read, update, or delete starship data.
+### NOTE
+Ollama will download QWEN2.5:0.5b - this is about 400 MB.  Furthermore, the API will need to migrate the database and seed the data.  You will need to wait a moment before jumping into it.  
+1) Verify that the API has completed the seed.
+2) Verify that Ollama finished downloading.
+
+Or - just wait about a minute and everything should be ready without you having to look at it :)
+
+## Additional Notes
+* Qwen2.5 has banned the word 'slave'.  If you pass it that word, it flat-out rejects the message.  I have tried to compensate for this by 'sanitizing' the text before it goes in.  However, there may be more banned words that I don't know about.
+* **I shamefully acknowledge that the scope of this was vastly increased by my overactive imagination.  I wanted to know if it was possible to implement Ollama in such a way.  After much thought, my design landed on the Star Wars Crawl.  Obviously it added a ton of extra work, but I completed it in time, and in my opinion, it looks simply fantastic.**
+* In StarWars.css you can adjust the crawl speed in the location where I added a comment.  I played with it a lot and settled for the speed it's at.  The original crawl is much slower, I know, but I felt like this looked good on a website.
 
 ## Acknowledgments
 
