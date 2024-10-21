@@ -9,6 +9,7 @@ Architecture
 Prerequisites
 Installation and Setup
 Usage
+Additional Notes
 Acknowledgments
 
 ## Features
@@ -88,6 +89,11 @@ Generate the Star Wars Crawl:
 
 Manage Starships:
     Use the CRUD functionality to create, read, update, or delete starship data.
+
+## Additional Notes
+* Qwen2.5 has banned the word 'slave'.  If you pass it that word, it flat-out rejects the message.  I have tried to compensate for this by 'sanitizing' the text before it goes in.  However, there may be more banned words that I don't know about.
+* **I shamefully acknowledge that the scope of this was vastly increased by my overactive imagination.  I wanted to know if it was possible to implement Ollama in such a way.  After much thought, my design landed on the Star Wars Crawl.  Obviously it added a ton of extra work, but I completed it in time, and in my opinion, it looks simply fantastic.**
+* In StarWars.css you can adjust the crawl speed in the location where I added a comment.  I played with it a lot and settled for the speed it's at.  The original crawl is much slower, I know, but I felt like this looked good on a website.
 
 ## Acknowledgments
 
