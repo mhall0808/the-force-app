@@ -24,7 +24,7 @@ Modern Design: Incorporates the latest Bootstrap components for a sleek and mode
 Backend: .NET 8.0 API using ASP.NET Core MVC
 Frontend: React.js with Bootstrap for styling
 Database: Microsoft SQL Server with Entity Framework Core
-AI Service: Ollama
+AI Service: Ollama using Qwen 2.5 - 0.5B.  You may swap out for larger models, but after various tests, this was the only one that provided fast enough speed without running NVIDIA CUDA.  Yep - this is running on all CPU.
 Containerization: Docker and Docker Compose
 
 ## Architecture
@@ -71,7 +71,7 @@ Start all services defined in the docker-compose.yml file.
 ### 3. Verify the Setup
 
 Frontend: Open your browser and navigate to http://localhost:3000 to access the React application.
-API: The backend API is accessible at http://localhost:5000.
+API: The backend API is accessible at http://localhost:5000.  You can view the swagger by navigating to http://localhost:5000/swagger
 Ollama: The AI service runs on http://localhost:11434.
 
 ## Usage
