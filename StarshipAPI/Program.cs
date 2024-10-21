@@ -51,25 +51,29 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Pull the model automatically on startup
-        // Console.WriteLine("Pulling the Qwen2.5 model...");
-        // await ollamaService.PullModelAsync("qwen2.5:3b");
-        // Console.WriteLine("Model pulled successfully.");
-
         Console.WriteLine("Applying database migrations...");
         await dbContext.Database.MigrateAsync();
         Console.WriteLine("Database migrations applied successfully.");
 
-        var seeder = scope.ServiceProvider.GetRequiredService<GenericSeeder>();
-        Console.WriteLine("Seeding the database...");
-        await seeder.SeedAllEntitiesAsync();
-        Console.WriteLine("Database seeding completed.");
+        // Check if the database is already seeded
+        if (!dbContext.Films.Any())
+        {
+            var seeder = scope.ServiceProvider.GetRequiredService<GenericSeeder>();
+            Console.WriteLine("Seeding the database...");
+            await seeder.SeedAllEntitiesAsync();
+            Console.WriteLine("Database seeding completed.");
+        }
+        else
+        {
+            Console.WriteLine("Database already seeded. Skipping seeding.");
+        }
     }
     catch (Exception ex)
     {
         Console.WriteLine($"Error applying migrations or seeding: {ex.Message}");
     }
 }
+
 
 // Enable CORS (after building the app)
 app.UseCors("AllowAllOrigins");

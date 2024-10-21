@@ -1,13 +1,14 @@
-// src/App.tsx
-
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css'; // Your custom styles
 import axios from 'axios';
 import StarWarsCrawl from './components/StarWarsCrawl';
+import LoadingScreen from './components/LoadingScreen';
+import ErrorMessage from './components/ErrorMessage';
+import MobileView from './components/MobileView';
+import DesktopView from './components/DesktopView';
 
-// Define the interface for the paragraph response
 interface ParagraphResponse {
   paragraphText: string;
 }
@@ -208,11 +209,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       {/* Loading Screen */}
-      {isLoading && !isCrawlPlaying && (
-        <div className="loading-screen">
-          <p>Loading your Star Wars adventure...</p>
-        </div>
-      )}
+      {isLoading && !isCrawlPlaying && <LoadingScreen />}
 
       {/* Star Wars Crawl */}
       {isCrawlPlaying && (
@@ -223,196 +220,29 @@ const App: React.FC = () => {
       {!isCrawlPlaying && !isLoading && (
         <div className="main-content">
           {isMobile ? (
-            <div className="mobile-view">
-              <div className="container mt-4">
-                <div className="row">
-                  <div
-                    className="col-4 text-center mb-4"
-                    onClick={() => handleIconClick(fetchRandomPerson, 'person')}
-                  >
-                    <i
-                      className={`bi bi-person-fill icon mb-2 ${
-                        rotatedIcons['person'] ? 'rotated' : ''
-                      }`}
-                    ></i>
-                    <p>{people ? people.name : 'Person'}</p>
-                  </div>
-                  <div
-                    className="col-4 text-center mb-4"
-                    onClick={() => handleIconClick(fetchRandomStarship, 'starship')}
-                  >
-                    <i
-                      className={`bi bi-rocket-fill icon mb-2 ${
-                        rotatedIcons['starship'] ? 'rotated' : ''
-                      }`}
-                    ></i>
-                    <p>{starship ? starship.name : 'Starship'}</p>
-                  </div>
-                  <div
-                    className="col-4 text-center mb-4"
-                    onClick={() => handleIconClick(fetchRandomPlanet, 'planet')}
-                  >
-                    <i
-                      className={`bi bi-globe icon mb-2 ${
-                        rotatedIcons['planet'] ? 'rotated' : ''
-                      }`}
-                    ></i>
-                    <p>{planet ? planet.name : 'Planet'}</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div
-                    className="col-4 text-center mb-4"
-                    onClick={() => handleIconClick(fetchRandomFilm, 'film')}
-                  >
-                    <i
-                      className={`bi bi-film icon mb-2 ${
-                        rotatedIcons['film'] ? 'rotated' : ''
-                      }`}
-                    ></i>
-                    <p>{film ? film.title : 'Film'}</p>
-                  </div>
-                  <div
-                    className="col-4 text-center mb-4"
-                    onClick={() => handleIconClick(fetchRandomVehicle, 'vehicle')}
-                  >
-                    <i
-                      className={`bi bi-truck icon mb-2 ${
-                        rotatedIcons['vehicle'] ? 'rotated' : ''
-                      }`}
-                    ></i>
-                    <p>{vehicle ? vehicle.name : 'Vehicle'}</p>
-                  </div>
-                  <div
-                    className="col-4 text-center mb-4"
-                    onClick={() => handleIconClick(fetchRandomSpecies, 'species')}
-                  >
-                    <i
-                      className={`bi bi-bug-fill icon mb-2 ${
-                        rotatedIcons['species'] ? 'rotated' : ''
-                      }`}
-                    ></i>
-                    <p>{species ? species.name : 'Species'}</p>
-                  </div>
-                </div>
-              </div>
-              {/* GO Button */}
-              <div className="go-button-container">
-                <button
-                  className="btn btn-success w-100"
-                  onClick={handleGoClick}
-                  disabled={isLoading || isCrawlPlaying}
-                >
-                  {isLoading ? 'Loading...' : 'GO'}
-                </button>
-              </div>
-            </div>
+            <MobileView
+              entities={{ people, starship, planet, film, vehicle, species }}
+              rotatedIcons={rotatedIcons}
+              handleIconClick={handleIconClick}
+              handleGoClick={handleGoClick}
+              isLoading={isLoading}
+              isCrawlPlaying={isCrawlPlaying}
+            />
           ) : (
-            <div className="desktop-view">
-              {/* Navbar Section */}
-              <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container-fluid">
-                  {/* Navbar Brand */}
-                  <a className="navbar-brand" href="#">
-                    Star Wars Adventure
-                  </a>
-                  {/* Navbar Toggler */}
-                  <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span className="navbar-toggler-icon"></span>
-                  </button>
-                  {/* Navbar Content */}
-                  <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav me-auto">
-                      <li
-                        className="nav-item"
-                        onClick={() => handleIconClick(fetchRandomPerson, 'person')}
-                      >
-                        <a className="nav-link" href="#">
-                          <i className="bi bi-person-fill"></i> {people ? people.name : 'Person'}
-                        </a>
-                      </li>
-                      <li
-                        className="nav-item"
-                        onClick={() => handleIconClick(fetchRandomStarship, 'starship')}
-                      >
-                        <a className="nav-link" href="#">
-                          <i className="bi bi-rocket-fill"></i> {starship ? starship.name : 'Starship'}
-                        </a>
-                      </li>
-                      <li
-                        className="nav-item"
-                        onClick={() => handleIconClick(fetchRandomPlanet, 'planet')}
-                      >
-                        <a className="nav-link" href="#">
-                          <i className="bi bi-globe"></i> {planet ? planet.name : 'Planet'}
-                        </a>
-                      </li>
-                      <li
-                        className="nav-item"
-                        onClick={() => handleIconClick(fetchRandomFilm, 'film')}
-                      >
-                        <a className="nav-link" href="#">
-                          <i className="bi bi-film"></i> {film ? film.title : 'Film'}
-                        </a>
-                      </li>
-                      <li
-                        className="nav-item"
-                        onClick={() => handleIconClick(fetchRandomVehicle, 'vehicle')}
-                      >
-                        <a className="nav-link" href="#">
-                          <i className="bi bi-truck"></i> {vehicle ? vehicle.name : 'Vehicle'}
-                        </a>
-                      </li>
-                      <li
-                        className="nav-item"
-                        onClick={() => handleIconClick(fetchRandomSpecies, 'species')}
-                      >
-                        <a className="nav-link" href="#">
-                          <i className="bi bi-bug-fill"></i> {species ? species.name : 'Species'}
-                        </a>
-                      </li>
-                    </ul>
-                    {/* GO Button */}
-                    <button
-                      className="btn btn-success"
-                      onClick={handleGoClick}
-                      disabled={isLoading || isCrawlPlaying}
-                    >
-                      {isLoading ? 'Loading...' : 'GO'}
-                    </button>
-                  </div>
-                </div>
-              </nav>
-
-              {/* Main Content */}
-              <div className="main-content">
-                <div className="welcome-content">
-                  <h1>Embark on a Galactic Adventure!</h1>
-                  <p>Select your characters and click 'GO' to begin.</p>
-                </div>
-              </div>
-            </div>
+            <DesktopView
+              entities={{ people, starship, planet, film, vehicle, species }}
+              rotatedIcons={rotatedIcons}
+              handleIconClick={handleIconClick}
+              handleGoClick={handleGoClick}
+              isLoading={isLoading}
+              isCrawlPlaying={isCrawlPlaying}
+            />
           )}
         </div>
       )}
 
       {/* Display Error Message */}
-      {error && (
-        <div
-          className="alert alert-danger position-fixed bottom-0 start-50 translate-middle-x mb-3"
-          role="alert"
-        >
-          {error}
-        </div>
-      )}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 };
