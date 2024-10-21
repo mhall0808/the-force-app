@@ -1,41 +1,99 @@
-# The Force
+# Star Wars Crawl Adventure
 
-## Running the Project with Ollama API Key
+## Embark on a galactic journey with the Star Wars Crawl Adventure! This interactive web application combines data from the Star Wars universe with AI-generated content to create a unique and immersive experience.
+## Table of Contents
 
-To run the project locally with an API key for the Ollama service, you'll need to set the `OLLAMA_API_KEY` environment variable in your respective shell before starting the Docker containers. Here’s how to do it for different environments:
+    Features
+    Technologies Used
+    Architecture
+    Prerequisites
+    Installation and Setup
+    Usage
+    Contributing
+    License
+    Acknowledgments
 
-### PowerShell
+## Features
 
-For **PowerShell**, use the following command to set the `OLLAMA_API_KEY` and then start the Docker containers:
+    Random Star Wars Entities: Fetch random characters, starships, planets, films, vehicles, and species from a seeded SQL database.
+    Interactive UI: A responsive and user-friendly interface optimized for both desktop and mobile devices.
+    AI-Generated Star Wars Crawl: Generate a custom Star Wars opening crawl powered by AI using Ollama.
+    Full CRUD Functionality: Manage Starship data through Create, Read, Update, and Delete operations.
+    Modern Design: Incorporates the latest Bootstrap components for a sleek and modern look.
 
-```powershell```
-$env:OLLAMA_API_KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKBismC6dwcDhjmgU0q+30iUAQSwyvp6OAJTNCzOOUo5"
-docker-compose up -d
+## Technologies Used
 
-### CMD (Command Prompt)
+    Backend: .NET 8.0 API using ASP.NET Core MVC
+    Frontend: React.js with Bootstrap for styling
+    Database: Microsoft SQL Server with Entity Framework Core
+    AI Service: Ollama
+    Containerization: Docker and Docker Compose
 
-For Windows Command Prompt (CMD), use the set command to define the environment variable:
+## Architecture
 
-### cmd
+### The project consists of four main components:
 
-set OLLAMA_API_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKBismC6dwcDhjmgU0q+30iUAQSwyvp6OAJTNCzOOUo5
-docker-compose up -d
+    MS SQL Server: Hosts the database seeded with Star Wars data from the SWAPI API.
+    .NET 8.0 API: Serves as the backend, providing RESTful API endpoints for the frontend.
+    React Frontend: The user interface where users interact with the application.
+    Ollama AI Service: Generates AI-powered content for the Star Wars crawl.
 
-Linux/Mac (Bash)
+#### Prerequisites
 
-For Linux or macOS (Bash shell), set the environment variable inline with the docker-compose command:
+    Git: To clone the repository.
+    Docker & Docker Compose: To build and run the containers.
+    At least 8GB of RAM: Recommended for running all services smoothly.
 
-bash
+## Installation and Setup
 
-OLLAMA_API_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKBismC6dwcDhjmgU0q+30iUAQSwyvp6OAJTNCzOOUo5" docker-compose up -d
+Follow these steps to set up and run the project on your local machine.
+### 1. Clone the Repository
 
-Notes
+#### bash
 
-    These commands temporarily set the OLLAMA_API_KEY environment variable for this session only.
-    Ensure you use the correct API key for your setup, as the example key here is for demonstration purposes.
-    Run docker-compose down --volumes when you're finished to clean up the containers and volumes.
+```
+git clone https://github.com/yourusername/star-wars-crawl-adventure.git
+cd star-wars-crawl-adventure
+```
 
-### Breakdown:
-- I added a brief introduction and unified the section titles under "Running the Project with Ollama API Key."
-- Provided a consistent explanation for how to use the commands.
-- Included a note section for clarity on key usage and cleanup.
+### 2. Build and Run with Docker Compose
+
+### Ensure Docker and Docker Compose are installed and running on your system.
+
+#### bash
+
+`docker-compose up --build`
+
+#### This command will:
+
+    Build the .NET API and React frontend images.
+    Pull the necessary images for SQL Server and Ollama.
+    Start all services defined in the docker-compose.yml file.
+
+### 3. Verify the Setup
+
+    Frontend: Open your browser and navigate to http://localhost:3000 to access the React application.
+    API: The backend API is accessible at http://localhost:5000.
+    Ollama: The AI service runs on http://localhost:11434.
+
+## Usage
+
+    Access the Application: Navigate to http://localhost:3000 in your web browser.
+
+    Interact with Entities:
+        Click on the icons to fetch random Star Wars entities.
+        The entities include people, starships, planets, films, vehicles, and species.
+
+    Generate the Star Wars Crawl:
+        After selecting your entities, click the GO button.
+        An AI-generated Star Wars opening crawl will be displayed, incorporating your selected entities.
+
+    Manage Starships:
+        Use the CRUD functionality to create, read, update, or delete starship data.
+
+## Acknowledgments
+
+    SWAPI - The Star Wars API
+    Ollama AI Service
+    Bootstrap
+    React
