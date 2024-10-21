@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchAllEntities } from '../api/starshipApi';  // Adjusted import for the generic API file
+import { fetchAllEntities } from '../api/api';  // Adjusted import for the generic API file
 
 interface Entity {
   id: number;

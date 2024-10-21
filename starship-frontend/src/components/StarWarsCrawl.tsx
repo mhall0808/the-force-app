@@ -12,6 +12,7 @@ interface StarWarsCrawlProps {
 const StarWarsCrawl: React.FC<StarWarsCrawlProps> = ({ text, onSkip, duration = 50 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const crawlContentRef = useRef<HTMLDivElement | null>(null);
+  const previousContentHeightRef = useRef<number>(0);
 
   useEffect(() => {
     // Start the audio
@@ -43,6 +44,32 @@ const StarWarsCrawl: React.FC<StarWarsCrawlProps> = ({ text, onSkip, duration = 
       }
     };
   }, [onSkip]);
+
+  useEffect(() => {
+    // Adjust the transform when content changes
+    const crawlContent = crawlContentRef.current;
+    if (crawlContent) {
+      const currentHeight = crawlContent.getBoundingClientRect().height;
+      const previousHeight = previousContentHeightRef.current;
+
+      if (previousHeight !== 0 && previousHeight !== currentHeight) {
+        const heightDiff = currentHeight - previousHeight;
+
+        // Get current transform
+        const style = window.getComputedStyle(crawlContent);
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        const translateY = matrix.m42;
+
+        // Adjust translateY to compensate for the height difference
+        const newTranslateY = translateY - heightDiff;
+
+        // Apply the new transform
+        crawlContent.style.transform = `translateX(-50%) translateY(${newTranslateY}px)`;
+      }
+
+      previousContentHeightRef.current = currentHeight;
+    }
+  }, [text]);
 
   return (
     <div className="star-wars-crawl">

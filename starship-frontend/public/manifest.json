@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Star Wars Adventure",
+  "name": "Star Wars Adventure: a Star Wars API project",
   "icons": [
     {
       "src": "favicon.ico",

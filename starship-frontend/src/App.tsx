@@ -150,48 +150,46 @@ const App: React.FC = () => {
     // Sanitize the selected data
     const sanitizedData = sanitizeSelectedData(selectedData);
 
-    // Start loading screen
-    setIsCrawlPlaying(false);
-    setCrawlText([]);
+    // Predefined paragraphs with more interesting content
+    const paragraph1 =
+      "Turmoil has engulfed the Galactic Republic. The sinister Darth Lord Mark, cloaked in darkness, spreads treachery and chaos across the stars, leaving entire worlds trembling in fear.";
+    const paragraph2 = `But heroes rise in the unlikeliest of places. On the remote planet ${sanitizedData.Planet.name}, the courageous GoEngineer rebellion, led by Vitali, Royce, and Francisco, battles valiantly to protect the last of the noble ${sanitizedData.Species.name}.`;
+    const paragraph4 = `Unaware of the impending danger, they continue their fight. Yet, the malevolent Darth Lord Mark races towards them aboard his dreaded starship, the ${sanitizedData.Starship.name}. Only ${sanitizedData.Person.name}, armed with the legendary ${sanitizedData.Vehicle.name}, stands between hope and annihilation.`;
 
     try {
-      // Initialize crawl text with placeholders
-      const placeholders = [
+      // Show loading screen
+      setIsCrawlPlaying(false);
+      setCrawlText([]);
+      setIsLoading(true);
+
+      // Fetch paragraph 3 asynchronously
+      const response = await axios.post<ParagraphResponse>(
+        'http://localhost:5000/api/ai/generate-crawl-paragraph',
+        {
+          selectedData: sanitizedData,
+          paragraphNumber: 3,
+        }
+      );
+      const paragraph3Text = response.data.paragraphText;
+
+      // Once all paragraphs are ready, set the crawl text and start the crawl
+      const crawlContent = [
         film ? film.title.toUpperCase() : 'STAR WARS', // Film title at the top
-        'Loading...', // Placeholder for paragraph 1
-        'Loading...', // Placeholder for paragraph 2
-        'Loading...', // Placeholder for paragraph 3
-        'Loading...', // Placeholder for paragraph 4
+        paragraph1, // Paragraph 1
+        paragraph2, // Paragraph 2
+        paragraph3Text, // Paragraph 3
+        paragraph4, // Paragraph 4
       ];
-      setCrawlText(placeholders);
+      setCrawlText(crawlContent);
 
-      // Start the crawl immediately
+      // Start the crawl
       setIsCrawlPlaying(true);
-
-      // Fetch the paragraphs asynchronously and update them
-      for (let i = 1; i <= 4; i++) {
-        const response = await axios.post<ParagraphResponse>(
-          'http://localhost:5000/api/ai/generate-crawl-paragraph',
-          {
-            selectedData: sanitizedData,
-            paragraphNumber: i,
-          }
-        );
-        const paragraphText = response.data.paragraphText;
-
-        // Update the specific paragraph without causing jumps
-        setCrawlText((prevCrawlText) => {
-          const newCrawlText = [...prevCrawlText];
-          newCrawlText[i] = paragraphText;
-          return newCrawlText;
-        });
-      }
     } catch (error) {
       console.error(error);
-      setError('Failed to load crawl paragraphs.');
+      setError('Failed to load crawl paragraph.');
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false); // Ensure this is called after starting the crawl
   };
 
   const handleSkipCrawl = () => {
