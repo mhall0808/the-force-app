@@ -40,13 +40,13 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2.0'       # Limit the container to use at most 2 CPUs
-          memory: '4g'      # Limit the container to use at most 4GB of RAM
+          cpus: '4.0'       # Limit the container to use at most 2 CPUs
+          memory: '8g'      # Limit the container to use at most 4GB of RAM
         reservations:
-          cpus: '1.5'       # Reserve at least 1.5 CPUs for the container
-          memory: '2g'      # Reserve at least 2GB of RAM for the container
+          cpus: '3.0'       # Reserve at least 1.5 CPUs for the container
+          memory: '6g'      # Reserve at least 2GB of RAM for the container
     environment:
-    - OLLAMA_NUM_THREADS=4  # Set the number of threads to 4
+    - OLLAMA_NUM_THREADS=8  # Set the number of threads to 4
 
   frontend:
     build: ./starship-frontend
