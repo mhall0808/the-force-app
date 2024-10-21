@@ -8,6 +8,12 @@ interface DesktopViewProps {
   handleGoClick: () => void;
   isLoading: boolean;
   isCrawlPlaying: boolean;
+  fetchRandomPerson: () => void;
+  fetchRandomStarship: () => void;
+  fetchRandomPlanet: () => void;
+  fetchRandomFilm: () => void;
+  fetchRandomVehicle: () => void;
+  fetchRandomSpecies: () => void;
 }
 
 const DesktopView: React.FC<DesktopViewProps> = ({
@@ -17,6 +23,12 @@ const DesktopView: React.FC<DesktopViewProps> = ({
   handleGoClick,
   isLoading,
   isCrawlPlaying,
+  fetchRandomPerson,
+  fetchRandomStarship,
+  fetchRandomPlanet,
+  fetchRandomFilm,
+  fetchRandomVehicle,
+  fetchRandomSpecies,
 }) => (
   <div className="desktop-view">
     {/* Navbar Section */}
@@ -27,6 +39,12 @@ const DesktopView: React.FC<DesktopViewProps> = ({
       handleGoClick={handleGoClick}
       isLoading={isLoading}
       isCrawlPlaying={isCrawlPlaying}
+      fetchRandomPerson={fetchRandomPerson}
+      fetchRandomStarship={fetchRandomStarship}
+      fetchRandomPlanet={fetchRandomPlanet}
+      fetchRandomFilm={fetchRandomFilm}
+      fetchRandomVehicle={fetchRandomVehicle}
+      fetchRandomSpecies={fetchRandomSpecies}
     />
 
     {/* Main Content */}

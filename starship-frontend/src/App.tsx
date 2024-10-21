@@ -9,10 +9,6 @@ import ErrorMessage from './components/ErrorMessage';
 import MobileView from './components/MobileView';
 import DesktopView from './components/DesktopView';
 
-interface ParagraphResponse {
-  paragraphText: string;
-}
-
 const App: React.FC = () => {
   // State variables
   const [people, setPeople] = useState<any>(null);
@@ -55,23 +51,6 @@ const App: React.FC = () => {
     fetchRandomFilm();
     fetchRandomVehicle();
     fetchRandomSpecies();
-  };
-
-  // Sanitize selected data
-  const sanitizeSelectedData = (data: any): any => {
-    if (typeof data === 'string') {
-      return data.replace(/slave/gi, 'servant');
-    } else if (Array.isArray(data)) {
-      return data.map(sanitizeSelectedData);
-    } else if (typeof data === 'object' && data !== null) {
-      const sanitizedObject: any = {};
-      for (const key in data) {
-        sanitizedObject[key] = sanitizeSelectedData(data[key]);
-      }
-      return sanitizedObject;
-    } else {
-      return data;
-    }
   };
 
   // Fetch functions
@@ -135,10 +114,31 @@ const App: React.FC = () => {
     }
   };
 
+  interface ParagraphResponse {
+    paragraphText: string;
+  }
+
+  // Sanitize selected data
+  const sanitizeSelectedData = (data: any): any => {
+    if (typeof data === 'string') {
+      return data.replace(/slave/gi, 'servant');
+    } else if (Array.isArray(data)) {
+      return data.map(sanitizeSelectedData);
+    } else if (typeof data === 'object' && data !== null) {
+      const sanitizedObject: any = {};
+      for (const key in data) {
+        sanitizedObject[key] = sanitizeSelectedData(data[key]);
+      }
+      return sanitizedObject;
+    } else {
+      return data;
+    }
+  };
+
   const handleGoClick = async () => {
     setIsLoading(true);
     setError(null); // Reset any previous errors
-
+  
     const selectedData = {
       Person: people,
       Starship: starship,
@@ -147,42 +147,38 @@ const App: React.FC = () => {
       Vehicle: vehicle,
       Species: species,
     };
-
-    // Sanitize the selected data
     const sanitizedData = sanitizeSelectedData(selectedData);
-
-    // Predefined paragraphs with more interesting content
+  
     const paragraph1 =
       "Turmoil has engulfed the Galactic Republic. The sinister Darth Lord Mark, cloaked in darkness, spreads treachery and chaos across the stars, leaving entire worlds trembling in fear.";
     const paragraph2 = `But heroes rise in the unlikeliest of places. On the remote planet ${sanitizedData.Planet.name}, the courageous GoEngineer rebellion, led by Vitali, Royce, and Francisco, battles valiantly to protect the last of the noble ${sanitizedData.Species.name}.`;
     const paragraph4 = `Unaware of the impending danger, they continue their fight. Yet, the malevolent Darth Lord Mark races towards them aboard his dreaded starship, the ${sanitizedData.Starship.name}. Only ${sanitizedData.Person.name}, armed with the legendary ${sanitizedData.Vehicle.name}, stands between hope and annihilation.`;
 
+  
     try {
       // Show loading screen
       setIsCrawlPlaying(false);
       setCrawlText([]);
       setIsLoading(true);
-
+  
       // Fetch paragraph 3 asynchronously
-      const response = await axios.post<ParagraphResponse>(
-        'http://localhost:5000/api/ai/generate-crawl-paragraph',
-        {
-          selectedData: sanitizedData,
-          paragraphNumber: 3,
-        }
-      );
-      const paragraph3Text = response.data.paragraphText;
-
+      const response = await axios.post<ParagraphResponse>('http://localhost:5000/api/ai/generate-crawl-paragraph', {
+        selectedData,
+        paragraphNumber: 3,
+      });
+  
+      const paragraph3Text = (response.data as ParagraphResponse).paragraphText; // Cast response.data to ParagraphResponse
+  
       // Once all paragraphs are ready, set the crawl text and start the crawl
       const crawlContent = [
-        film ? film.title.toUpperCase() : 'STAR WARS', // Film title at the top
-        paragraph1, // Paragraph 1
-        paragraph2, // Paragraph 2
-        paragraph3Text, // Paragraph 3
-        paragraph4, // Paragraph 4
+        film ? film.title.toUpperCase() : 'STAR WARS', // Film title
+        paragraph1,
+        paragraph2,
+        paragraph3Text,
+        paragraph4,
       ];
       setCrawlText(crawlContent);
-
+  
       // Start the crawl
       setIsCrawlPlaying(true);
     } catch (error) {
@@ -192,6 +188,7 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   };
+  
 
   const handleSkipCrawl = () => {
     setIsCrawlPlaying(false);
@@ -205,29 +202,28 @@ const App: React.FC = () => {
     setRotatedIcons((prev) => ({ ...prev, [iconKey]: !prev[iconKey] }));
   };
 
-  // Conditionally render mobile view or desktop view
+  // Conditionally render mobile or desktop view
   return (
     <div className="App">
-      {/* Loading Screen */}
       {isLoading && !isCrawlPlaying && <LoadingScreen />}
-
-      {/* Star Wars Crawl */}
-      {isCrawlPlaying && (
-        <StarWarsCrawl text={crawlText} onSkip={handleSkipCrawl} duration={50} />
-      )}
-
-      {/* Main Content */}
+      {isCrawlPlaying && <StarWarsCrawl text={crawlText} onSkip={handleSkipCrawl} duration={50} />}
       {!isCrawlPlaying && !isLoading && (
         <div className="main-content">
           {isMobile ? (
             <MobileView
-              entities={{ people, starship, planet, film, vehicle, species }}
-              rotatedIcons={rotatedIcons}
-              handleIconClick={handleIconClick}
-              handleGoClick={handleGoClick}
-              isLoading={isLoading}
-              isCrawlPlaying={isCrawlPlaying}
-            />
+            entities={{ person: people, starship, planet, film, vehicle, species }}
+            rotatedIcons={rotatedIcons}
+            handleIconClick={handleIconClick}
+            handleGoClick={handleGoClick}
+            isLoading={isLoading}
+            isCrawlPlaying={isCrawlPlaying}
+            fetchRandomPerson={fetchRandomPerson}
+            fetchRandomStarship={fetchRandomStarship}
+            fetchRandomPlanet={fetchRandomPlanet}
+            fetchRandomFilm={fetchRandomFilm}
+            fetchRandomVehicle={fetchRandomVehicle}
+            fetchRandomSpecies={fetchRandomSpecies}
+          />
           ) : (
             <DesktopView
               entities={{ people, starship, planet, film, vehicle, species }}
@@ -236,12 +232,16 @@ const App: React.FC = () => {
               handleGoClick={handleGoClick}
               isLoading={isLoading}
               isCrawlPlaying={isCrawlPlaying}
+              fetchRandomPerson={fetchRandomPerson}
+              fetchRandomStarship={fetchRandomStarship}
+              fetchRandomPlanet={fetchRandomPlanet}
+              fetchRandomFilm={fetchRandomFilm}
+              fetchRandomVehicle={fetchRandomVehicle}
+              fetchRandomSpecies={fetchRandomSpecies}
             />
           )}
         </div>
       )}
-
-      {/* Display Error Message */}
       {error && <ErrorMessage message={error} />}
     </div>
   );

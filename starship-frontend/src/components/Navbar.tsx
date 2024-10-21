@@ -1,5 +1,3 @@
-// src/components/Navbar.tsx
-
 import React from 'react';
 
 interface NavbarProps {
@@ -9,6 +7,12 @@ interface NavbarProps {
   handleGoClick: () => void;
   isLoading: boolean;
   isCrawlPlaying: boolean;
+  fetchRandomPerson: () => void;
+  fetchRandomStarship: () => void;
+  fetchRandomPlanet: () => void;
+  fetchRandomFilm: () => void;
+  fetchRandomVehicle: () => void;
+  fetchRandomSpecies: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -18,6 +22,12 @@ const Navbar: React.FC<NavbarProps> = ({
   handleGoClick,
   isLoading,
   isCrawlPlaying,
+  fetchRandomPerson,
+  fetchRandomStarship,
+  fetchRandomPlanet,
+  fetchRandomFilm,
+  fetchRandomVehicle,
+  fetchRandomSpecies,
 }) => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <div className="container-fluid">
@@ -42,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({
         <ul className="navbar-nav me-auto">
           <li
             className="nav-item"
-            onClick={() => handleIconClick(() => {}, 'person')}
+            onClick={() => handleIconClick(fetchRandomPerson, 'person')}
           >
             <a className="nav-link" href="#">
               <i className="bi bi-person-fill"></i> {entities.people ? entities.people.name : 'Person'}
@@ -50,7 +60,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </li>
           <li
             className="nav-item"
-            onClick={() => handleIconClick(() => {}, 'starship')}
+            onClick={() => handleIconClick(fetchRandomStarship, 'starship')}
           >
             <a className="nav-link" href="#">
               <i className="bi bi-rocket-fill"></i> {entities.starship ? entities.starship.name : 'Starship'}
@@ -58,7 +68,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </li>
           <li
             className="nav-item"
-            onClick={() => handleIconClick(() => {}, 'planet')}
+            onClick={() => handleIconClick(fetchRandomPlanet, 'planet')}
           >
             <a className="nav-link" href="#">
               <i className="bi bi-globe"></i> {entities.planet ? entities.planet.name : 'Planet'}
@@ -66,7 +76,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </li>
           <li
             className="nav-item"
-            onClick={() => handleIconClick(() => {}, 'film')}
+            onClick={() => handleIconClick(fetchRandomFilm, 'film')}
           >
             <a className="nav-link" href="#">
               <i className="bi bi-film"></i> {entities.film ? entities.film.title : 'Film'}
@@ -74,7 +84,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </li>
           <li
             className="nav-item"
-            onClick={() => handleIconClick(() => {}, 'vehicle')}
+            onClick={() => handleIconClick(fetchRandomVehicle, 'vehicle')}
           >
             <a className="nav-link" href="#">
               <i className="bi bi-truck"></i> {entities.vehicle ? entities.vehicle.name : 'Vehicle'}
@@ -82,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </li>
           <li
             className="nav-item"
-            onClick={() => handleIconClick(() => {}, 'species')}
+            onClick={() => handleIconClick(fetchRandomSpecies, 'species')}
           >
             <a className="nav-link" href="#">
               <i className="bi bi-bug-fill"></i> {entities.species ? entities.species.name : 'Species'}
