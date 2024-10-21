@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarshipAPI", "StarshipAPI\StarshipAPI.csproj", "{7E1A8DDA-C29A-4917-B27E-45C77D807D37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarshipTest", "StarshipTest\StarshipTest.csproj", "{5A7AE771-E1D9-4332-8BEC-C2D4CABE145E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7E1A8DDA-C29A-4917-B27E-45C77D807D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E1A8DDA-C29A-4917-B27E-45C77D807D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E1A8DDA-C29A-4917-B27E-45C77D807D37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A7AE771-E1D9-4332-8BEC-C2D4CABE145E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A7AE771-E1D9-4332-8BEC-C2D4CABE145E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A7AE771-E1D9-4332-8BEC-C2D4CABE145E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A7AE771-E1D9-4332-8BEC-C2D4CABE145E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
